@@ -4,7 +4,6 @@ go 1.22.5
 
 require (
 	github.com/iancoleman/strcase v0.3.0
-	github.com/open-feature/go-sdk v1.13.0
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1
 	github.com/spf13/afero v1.11.0
 )
@@ -31,7 +30,6 @@ require (
 )
 
 require (
-	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/google/go-cmp v0.6.0
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0
