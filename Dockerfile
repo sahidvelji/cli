@@ -1,7 +1,7 @@
-# Use distroless as minimal base image to package the manager binary
-# Refer to https://github.com/GoogleContainerTools/distroless for more details
-FROM gcr.io/distroless/static:nonroot
-COPY ./openfeature-cli /openfeature-cli
-USER 65532:65532
+FROM alpine:3.21
 
-ENTRYPOINT ["/openfeature-cli"]
+COPY ./openfeature-cli usr/local/bin/openfeature-cli
+
+RUN chmod +x /usr/local/bin/openfeature-cli
+
+ENTRYPOINT ["/usr/local/bin/openfeature-cli"]
