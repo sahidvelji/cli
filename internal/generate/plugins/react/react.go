@@ -49,16 +49,7 @@ func flagInitParam(flagName string) string {
 }
 
 func flagAccessFunc(t types.FlagType) string {
-	switch t {
-	case types.IntType, types.FloatType:
-		return "useNumberFlagDetails"
-	case types.BoolType:
-		return "useBooleanFlagDetails"
-	case types.StringType:
-		return "useStringFlagDetails"
-	default:
-		return ""
-	}
+	return "useFlag"
 }
 
 func supportImports(flags []*types.FlagTmplData) []string {
@@ -74,12 +65,12 @@ func supportImports(flags []*types.FlagTmplData) []string {
 	return result
 }
 
-func defaultValueLiteral(flag *types.FlagTmplData) string {
+func codeDefaultValueLiteral(flag *types.FlagTmplData) string {
 	switch flag.Type {
 	case types.StringType:
-		return strconv.Quote(flag.DefaultValue)
+		return strconv.Quote(flag.CodeDefault)
 	default:
-		return flag.DefaultValue
+		return flag.CodeDefault
 	}
 }
 
@@ -102,7 +93,7 @@ func (g *genImpl) Generate(input types.Input) error {
 		"FlagInitParam":       flagInitParam,
 		"FlagAccessFunc":      flagAccessFunc,
 		"SupportImports":      supportImports,
-		"DefaultValueLiteral": defaultValueLiteral,
+		"CodeDefaultValueLiteral": codeDefaultValueLiteral,
 		"TypeString":          typeString,
 	}
 	td := TmplData{

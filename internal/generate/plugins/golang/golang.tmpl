@@ -31,10 +31,10 @@ var {{FlagVarName .Name}} = struct {
     ValueWithDetails {{OpenFeatureType .Type}}ProviderDetails
 }{
     Value: func(ctx context.Context, evalCtx openfeature.EvaluationContext) ({{TypeString .Type}}, error) {
-        return client.{{OpenFeatureType .Type}}Value(ctx, {{FlagInitParam .Name}}, {{DefaultValueLiteral .}}, evalCtx)
+        return client.{{OpenFeatureType .Type}}Value(ctx, {{FlagInitParam .Name}}, {{CodeDefaultValueLiteral .}}, evalCtx)
     },
     ValueWithDetails: func(ctx context.Context, evalCtx openfeature.EvaluationContext) (openfeature.{{OpenFeatureType .Type}}EvaluationDetails, error){
-        return client.{{OpenFeatureType .Type}}ValueDetails(ctx, {{FlagInitParam .Name}}, {{DefaultValueLiteral .}}, evalCtx)
+        return client.{{OpenFeatureType .Type}}ValueDetails(ctx, {{FlagInitParam .Name}}, {{CodeDefaultValueLiteral .}}, evalCtx)
     },
 }
 {{- end}}

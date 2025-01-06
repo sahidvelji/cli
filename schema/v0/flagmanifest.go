@@ -8,5 +8,5 @@ import _ "embed"
 //go:embed flag_manifest.json
 var Schema string
 
-// SchemaPath proviees the current path and version of flag manifest.
-const SchemaPath = "github.com/open-feature/cli/docs/schema/v0/flag_manifest.json"
+// SchemaPath provides the current path and version of flag manifest.
+const SchemaPath = "github.com/open-feature/cli/schema/v0/flag_manifest.json"

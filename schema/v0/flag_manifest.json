@@ -1,4 +1,5 @@
 {
+  "$id": "https://raw.githubusercontent.com/open-feature/cli/refs/heads/main/schema/v0/flag_manifest.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Flag Manifest",
   "description": "Describes a configuration of OpenFeature flags, including info such as their types and default values.",
@@ -13,10 +14,13 @@
           "$ref": "#/$defs/flag"
         }
       },
-      "additionalProperties": false
+      "additionalProperties": false,
+      "minProperties": 1
     }
   },
-  "required": ["flags"],
+  "required": [
+    "flags"
+  ],
   "$defs": {
     "flag": {
       "oneOf": [
@@ -36,87 +40,96 @@
           "$ref": "#/$defs/objectType"
         }
       ],
-      "required": ["flagType", "defaultValue"]
+      "required": [
+        "flagType",
+        "codeDefault"
+      ]
     },
     "booleanType": {
       "type": "object",
       "properties": {
         "flagType": {
           "type": "string",
-          "enum": ["boolean"]
+          "enum": [
+            "boolean"
+          ]
         },
-        "defaultValue": {
+        "codeDefault": {
+          "description": "The default value returned in code if a flag evaluation is unsuccessful",
           "type": "boolean"
         },
         "description": {
           "type": "string"
         }
-      },
-      "additionalProperties": false
+      }
     },
     "stringType": {
       "type": "object",
       "properties": {
         "flagType": {
           "type": "string",
-          "enum": ["string"]
+          "enum": [
+            "string"
+          ]
         },
-        "defaultValue": {
+        "codeDefault": {
           "type": "string"
         },
         "description": {
           "type": "string"
         }
-      },
-      "additionalProperties": false
+      }
     },
     "integerType": {
       "type": "object",
       "properties": {
         "flagType": {
           "type": "string",
-          "enum": ["integer"]
+          "enum": [
+            "integer"
+          ]
         },
-        "defaultValue": {
+        "codeDefault": {
           "type": "integer"
         },
         "description": {
           "type": "string"
         }
-      },
-      "additionalProperties": false
+      }
     },
     "floatType": {
       "type": "object",
       "properties": {
         "flagType": {
           "type": "string",
-          "enum": ["float"]
+          "enum": [
+            "float"
+          ]
         },
-        "defaultValue": {
+        "codeDefault": {
           "type": "number"
         },
         "description": {
           "type": "string"
         }
-      },
-      "additionalProperties": false
+      }
     },
     "objectType": {
       "type": "object",
       "properties": {
         "flagType": {
           "type": "string",
-          "enum": ["object"]
+          "enum": [
+            "object"
+          ]
         },
-        "defaultValue": {
+        "codeDefault": {
           "type": "object"
         },
         "description": {
           "type": "string"
         }
-      },
-      "additionalProperties": false
+      }
     }
   }
 }

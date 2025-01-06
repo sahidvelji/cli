@@ -1,10 +1,6 @@
 'use client';
 
-import {
-	useBooleanFlagDetails,
-	useNumberFlagDetails,
-	useStringFlagDetails,
-} from "@openfeature/react-sdk";
+import { type ReactFlagEvaluationOptions, useFlag } from "@openfeature/react-sdk";
 
 /**
 * Discount percentage applied to purchases.
@@ -14,8 +10,8 @@ import {
 * - default value: `0.15`
 * - type: `number`
 */
-export const useDiscountPercentage = (options: Parameters<typeof useNumberFlagDetails>[2]) => {
-  return useNumberFlagDetails("discountPercentage", 0.15, options);
+export const useDiscountPercentage = (options: ReactFlagEvaluationOptions) => {
+  return useFlag("discountPercentage", 0.15, options);
 };
 
 /**
@@ -26,8 +22,8 @@ export const useDiscountPercentage = (options: Parameters<typeof useNumberFlagDe
 * - default value: `false`
 * - type: `boolean`
 */
-export const useEnableFeatureA = (options: Parameters<typeof useBooleanFlagDetails>[2]) => {
-  return useBooleanFlagDetails("enableFeatureA", false, options);
+export const useEnableFeatureA = (options: ReactFlagEvaluationOptions) => {
+  return useFlag("enableFeatureA", false, options);
 };
 
 /**
@@ -38,8 +34,8 @@ export const useEnableFeatureA = (options: Parameters<typeof useBooleanFlagDetai
 * - default value: `Hello there!`
 * - type: `string`
 */
-export const useGreetingMessage = (options: Parameters<typeof useStringFlagDetails>[2]) => {
-  return useStringFlagDetails("greetingMessage", "Hello there!", options);
+export const useGreetingMessage = (options: ReactFlagEvaluationOptions) => {
+  return useFlag("greetingMessage", "Hello there!", options);
 };
 
 /**
@@ -50,6 +46,6 @@ export const useGreetingMessage = (options: Parameters<typeof useStringFlagDetai
 * - default value: `50`
 * - type: `number`
 */
-export const useUsernameMaxLength = (options: Parameters<typeof useNumberFlagDetails>[2]) => {
-  return useNumberFlagDetails("usernameMaxLength", 50, options);
+export const useUsernameMaxLength = (options: ReactFlagEvaluationOptions) => {
+  return useFlag("usernameMaxLength", 50, options);
 };

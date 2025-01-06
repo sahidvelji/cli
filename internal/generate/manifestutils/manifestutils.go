@@ -7,10 +7,10 @@ import (
 	"sort"
 	"strconv"
 
-	flagmanifest "github.com/open-feature/cli/docs/schema/v0"
 	"github.com/open-feature/cli/internal/filesystem"
 	"github.com/open-feature/cli/internal/flagkeys"
 	"github.com/open-feature/cli/internal/generate/types"
+	flagmanifest "github.com/open-feature/cli/schema/v0"
 
 	"github.com/santhosh-tekuri/jsonschema/v5"
 	"github.com/spf13/afero"
@@ -54,19 +54,19 @@ var stringToFlagType = map[string]types.FlagType{
 	"object":  types.ObjectType,
 }
 
-func getDefaultValue(defaultValue interface{}, flagType types.FlagType) string {
+func getCodeDefault(codeDefault interface{}, flagType types.FlagType) string {
 	switch flagType {
 	case types.BoolType:
-		return strconv.FormatBool(defaultValue.(bool))
+		return strconv.FormatBool(codeDefault.(bool))
 	case types.IntType:
 		//the conversion to float64 instead of integer typically occurs
 		//due to how JSON is parsed in Go. In Go's encoding/json package,
 		//all JSON numbers are unmarshaled into float64 by default when decoding into an interface{}.
-		return strconv.FormatFloat(defaultValue.(float64), 'g', -1, 64)
+		return strconv.FormatFloat(codeDefault.(float64), 'g', -1, 64)
 	case types.FloatType:
-		return strconv.FormatFloat(defaultValue.(float64), 'g', -1, 64)
+		return strconv.FormatFloat(codeDefault.(float64), 'g', -1, 64)
 	case types.StringType:
-		return defaultValue.(string)
+		return codeDefault.(string)
 	default:
 		return ""
 	}
@@ -97,11 +97,11 @@ func unmarshalFlagManifest(data []byte) (*types.BaseTmplData, error) {
 		flagTypeString := flagData["flagType"].(string)
 		flagType := stringToFlagType[flagTypeString]
 		docs := flagData["description"].(string)
-		defaultValue := getDefaultValue(flagData["defaultValue"], flagType)
+		codeDefault := getCodeDefault(flagData["codeDefault"], flagType)
 		btData.Flags = append(btData.Flags, &types.FlagTmplData{
 			Name:         flagKey,
 			Type:         flagType,
-			DefaultValue: defaultValue,
+			CodeDefault: codeDefault,
 			Docs:         docs,
 		})
 	}
