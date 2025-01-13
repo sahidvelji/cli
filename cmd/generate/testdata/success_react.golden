@@ -1,6 +1,11 @@
 'use client';
 
-import { type ReactFlagEvaluationOptions, useFlag } from "@openfeature/react-sdk";
+import {
+  type ReactFlagEvaluationOptions,
+  type ReactFlagEvaluationNoSuspenseOptions,
+  useFlag,
+  useSuspenseFlag,
+} from "@openfeature/react-sdk";
 
 /**
 * Discount percentage applied to purchases.
@@ -12,6 +17,21 @@ import { type ReactFlagEvaluationOptions, useFlag } from "@openfeature/react-sdk
 */
 export const useDiscountPercentage = (options: ReactFlagEvaluationOptions) => {
   return useFlag("discountPercentage", 0.15, options);
+};
+
+/**
+* Discount percentage applied to purchases.
+* 
+* **Details:**
+* - flag key: `discountPercentage`
+* - default value: `0.15`
+* - type: `number`
+*
+* Equivalent to useFlag with options: `{ suspend: true }`
+* @experimental — Suspense is an experimental feature subject to change in future versions.
+*/
+export const useSuspenseDiscountPercentage = (options: ReactFlagEvaluationNoSuspenseOptions) => {
+  return useSuspenseFlag("discountPercentage", 0.15, options);
 };
 
 /**
@@ -27,6 +47,21 @@ export const useEnableFeatureA = (options: ReactFlagEvaluationOptions) => {
 };
 
 /**
+* Controls whether Feature A is enabled.
+* 
+* **Details:**
+* - flag key: `enableFeatureA`
+* - default value: `false`
+* - type: `boolean`
+*
+* Equivalent to useFlag with options: `{ suspend: true }`
+* @experimental — Suspense is an experimental feature subject to change in future versions.
+*/
+export const useSuspenseEnableFeatureA = (options: ReactFlagEvaluationNoSuspenseOptions) => {
+  return useSuspenseFlag("enableFeatureA", false, options);
+};
+
+/**
 * The message to use for greeting users.
 * 
 * **Details:**
@@ -39,6 +74,21 @@ export const useGreetingMessage = (options: ReactFlagEvaluationOptions) => {
 };
 
 /**
+* The message to use for greeting users.
+* 
+* **Details:**
+* - flag key: `greetingMessage`
+* - default value: `Hello there!`
+* - type: `string`
+*
+* Equivalent to useFlag with options: `{ suspend: true }`
+* @experimental — Suspense is an experimental feature subject to change in future versions.
+*/
+export const useSuspenseGreetingMessage = (options: ReactFlagEvaluationNoSuspenseOptions) => {
+  return useSuspenseFlag("greetingMessage", "Hello there!", options);
+};
+
+/**
 * Maximum allowed length for usernames.
 * 
 * **Details:**
@@ -48,4 +98,19 @@ export const useGreetingMessage = (options: ReactFlagEvaluationOptions) => {
 */
 export const useUsernameMaxLength = (options: ReactFlagEvaluationOptions) => {
   return useFlag("usernameMaxLength", 50, options);
+};
+
+/**
+* Maximum allowed length for usernames.
+* 
+* **Details:**
+* - flag key: `usernameMaxLength`
+* - default value: `50`
+* - type: `number`
+*
+* Equivalent to useFlag with options: `{ suspend: true }`
+* @experimental — Suspense is an experimental feature subject to change in future versions.
+*/
+export const useSuspenseUsernameMaxLength = (options: ReactFlagEvaluationNoSuspenseOptions) => {
+  return useSuspenseFlag("usernameMaxLength", 50, options);
 };
