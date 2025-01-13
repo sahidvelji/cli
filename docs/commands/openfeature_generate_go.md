@@ -15,7 +15,7 @@ openfeature generate go [flags]
 ### Options
 
 ```
-  -h, --helps                  help for go
+  -h, --help                  help for go
       --package_name string   Name of the Go package to be generated.
 ```
 
