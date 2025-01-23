@@ -3,23 +3,23 @@
   "flags": {
     "booleanFlag": {
       "flagType": "boolean",
-      "codeDefault": true
+      "defaultValue": true
     },
     "stringFlag": {
       "flagType": "string",
-      "codeDefault": "default"
+      "defaultValue": "default"
     },
     "integerFlag": {
       "flagType": "integer",
-      "codeDefault": 50
+      "defaultValue": 50
     },
     "floatFlag": {
       "flagType": "float",
-      "codeDefault": 0.15
+      "defaultValue": 0.15
     },
     "objectFlag": {
       "flagType": "object",
-      "codeDefault": {
+      "defaultValue": {
         "primaryColor": "#007bff",
         "secondaryColor": "#6c757d"
       }

@@ -19,7 +19,7 @@ const (
 type FlagTmplData struct {
 	Name         string
 	Type         FlagType
-	CodeDefault  string
+	DefaultValue string
 	Docs         string
 }
 

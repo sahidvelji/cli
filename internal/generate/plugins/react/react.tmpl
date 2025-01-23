@@ -12,11 +12,11 @@ import {
 * 
 * **Details:**
 * - flag key: `{{ .Name}}`
-* - default value: `{{ .CodeDefault }}`
+* - default value: `{{ .DefaultValue }}`
 * - type: `{{TypeString .Type}}`
 */
 export const use{{FlagVarName .Name}} = (options: ReactFlagEvaluationOptions) => {
-  return useFlag({{FlagInitParam .Name}}, {{CodeDefaultValueLiteral .}}, options);
+  return useFlag({{FlagInitParam .Name}}, {{DefaultValueLiteral .}}, options);
 };
 
 /**
@@ -24,13 +24,13 @@ export const use{{FlagVarName .Name}} = (options: ReactFlagEvaluationOptions) =>
 * 
 * **Details:**
 * - flag key: `{{ .Name}}`
-* - default value: `{{ .CodeDefault }}`
+* - default value: `{{ .DefaultValue }}`
 * - type: `{{TypeString .Type}}`
 *
 * Equivalent to useFlag with options: `{ suspend: true }`
 * @experimental — Suspense is an experimental feature subject to change in future versions.
 */
 export const useSuspense{{FlagVarName .Name}} = (options: ReactFlagEvaluationNoSuspenseOptions) => {
-  return useSuspenseFlag({{FlagInitParam .Name}}, {{CodeDefaultValueLiteral .}}, options);
+  return useSuspenseFlag({{FlagInitParam .Name}}, {{DefaultValueLiteral .}}, options);
 };
 {{ end}}

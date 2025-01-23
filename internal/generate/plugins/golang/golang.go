@@ -78,12 +78,12 @@ func supportImports(flags []*types.FlagTmplData) []string {
 	return res
 }
 
-func codeDefaultValueLiteral(flag *types.FlagTmplData) string {
+func defaultValueLiteral(flag *types.FlagTmplData) string {
 	switch flag.Type {
 	case types.StringType:
-		return strconv.Quote(flag.CodeDefault)
+		return strconv.Quote(flag.DefaultValue)
 	default:
-		return flag.CodeDefault
+		return flag.DefaultValue
 	}
 }
 
@@ -111,7 +111,7 @@ func (g *genImpl) Generate(input types.Input) error {
 		"FlagInitParam":       flagInitParam,
 		"OpenFeatureType":     openFeatureType,
 		"SupportImports":      supportImports,
-		"CodeDefaultValueLiteral": codeDefaultValueLiteral,
+		"DefaultValueLiteral": defaultValueLiteral,
 		"TypeString":          typeString,
 	}
 	td := TmplData{

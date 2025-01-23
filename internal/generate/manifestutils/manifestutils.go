@@ -54,19 +54,19 @@ var stringToFlagType = map[string]types.FlagType{
 	"object":  types.ObjectType,
 }
 
-func getCodeDefault(codeDefault interface{}, flagType types.FlagType) string {
+func getDefaultValue(defaultValue interface{}, flagType types.FlagType) string {
 	switch flagType {
 	case types.BoolType:
-		return strconv.FormatBool(codeDefault.(bool))
+		return strconv.FormatBool(defaultValue.(bool))
 	case types.IntType:
 		//the conversion to float64 instead of integer typically occurs
 		//due to how JSON is parsed in Go. In Go's encoding/json package,
 		//all JSON numbers are unmarshaled into float64 by default when decoding into an interface{}.
-		return strconv.FormatFloat(codeDefault.(float64), 'g', -1, 64)
+		return strconv.FormatFloat(defaultValue.(float64), 'g', -1, 64)
 	case types.FloatType:
-		return strconv.FormatFloat(codeDefault.(float64), 'g', -1, 64)
+		return strconv.FormatFloat(defaultValue.(float64), 'g', -1, 64)
 	case types.StringType:
-		return codeDefault.(string)
+		return defaultValue.(string)
 	default:
 		return ""
 	}
@@ -97,11 +97,11 @@ func unmarshalFlagManifest(data []byte) (*types.BaseTmplData, error) {
 		flagTypeString := flagData["flagType"].(string)
 		flagType := stringToFlagType[flagTypeString]
 		docs := flagData["description"].(string)
-		codeDefault := getCodeDefault(flagData["codeDefault"], flagType)
+		defaultValue := getDefaultValue(flagData["defaultValue"], flagType)
 		btData.Flags = append(btData.Flags, &types.FlagTmplData{
 			Name:         flagKey,
 			Type:         flagType,
-			CodeDefault: codeDefault,
+			DefaultValue: defaultValue,
 			Docs:         docs,
 		})
 	}

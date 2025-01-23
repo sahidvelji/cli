@@ -42,7 +42,7 @@
       ],
       "required": [
         "flagType",
-        "codeDefault"
+        "defaultValue"
       ]
     },
     "booleanType": {
@@ -54,7 +54,7 @@
             "boolean"
           ]
         },
-        "codeDefault": {
+        "defaultValue": {
           "description": "The default value returned in code if a flag evaluation is unsuccessful",
           "type": "boolean"
         },
@@ -72,7 +72,7 @@
             "string"
           ]
         },
-        "codeDefault": {
+        "defaultValue": {
           "type": "string"
         },
         "description": {
@@ -89,7 +89,7 @@
             "integer"
           ]
         },
-        "codeDefault": {
+        "defaultValue": {
           "type": "integer"
         },
         "description": {
@@ -106,7 +106,7 @@
             "float"
           ]
         },
-        "codeDefault": {
+        "defaultValue": {
           "type": "number"
         },
         "description": {
@@ -123,7 +123,7 @@
             "object"
           ]
         },
-        "codeDefault": {
+        "defaultValue": {
           "type": "object"
         },
         "description": {
