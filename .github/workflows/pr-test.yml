@@ -20,15 +20,22 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version-file: 'go.mod'
-      - name: Module cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/go-build
-            ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
 
       - name: Run tests
         run: go test ./...
+
+  docs-check:
+    name: Validate docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+
+      - run: make generate-docs
+      - name: Check no diff
+        run: |
+          if [ ! -z "$(git status --porcelain)" ]; then echo "::error file=Makefile::Doc generation produced diff. Run 'make generate-docs' and commit results."; exit 1; fi

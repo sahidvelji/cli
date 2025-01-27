@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	Version string
+	Version = "dev"
 	Commit  string
 	Date    string
 )
@@ -20,6 +20,7 @@ var rootCmd = &cobra.Command{
 	Use:   "openfeature",
 	Short: "CLI for OpenFeature.",
 	Long:  `CLI for OpenFeature related functionalities.`,
+	DisableAutoGenTag: true,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

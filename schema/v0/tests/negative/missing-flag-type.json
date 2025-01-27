@@ -1,0 +1,8 @@
+{
+  "$schema": "../../flag_manifest.json",
+  "flags": {
+    "booleanFlag": {
+      "codeDefault": true
+    }
+  }
+}

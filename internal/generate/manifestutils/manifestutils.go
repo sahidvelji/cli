@@ -7,10 +7,10 @@ import (
 	"sort"
 	"strconv"
 
-	flagmanifest "github.com/open-feature/cli/docs/schema/v0"
 	"github.com/open-feature/cli/internal/filesystem"
 	"github.com/open-feature/cli/internal/flagkeys"
 	"github.com/open-feature/cli/internal/generate/types"
+	flagmanifest "github.com/open-feature/cli/schema/v0"
 
 	"github.com/santhosh-tekuri/jsonschema/v5"
 	"github.com/spf13/afero"

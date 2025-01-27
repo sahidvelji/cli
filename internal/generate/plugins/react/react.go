@@ -2,7 +2,6 @@ package react
 
 import (
 	_ "embed"
-	"sort"
 	"strconv"
 	"text/template"
 
@@ -48,32 +47,6 @@ func flagInitParam(flagName string) string {
 	return strconv.Quote(flagName)
 }
 
-func flagAccessFunc(t types.FlagType) string {
-	switch t {
-	case types.IntType, types.FloatType:
-		return "useNumberFlagDetails"
-	case types.BoolType:
-		return "useBooleanFlagDetails"
-	case types.StringType:
-		return "useStringFlagDetails"
-	default:
-		return ""
-	}
-}
-
-func supportImports(flags []*types.FlagTmplData) []string {
-	imports := make(map[string]struct{})
-	for _, flag := range flags {
-		imports[flagAccessFunc(flag.Type)] = struct{}{}
-	}
-	var result []string
-	for k := range imports {
-		result = append(result, k)
-	}
-	sort.Strings(result)
-	return result
-}
-
 func defaultValueLiteral(flag *types.FlagTmplData) string {
 	switch flag.Type {
 	case types.StringType:
@@ -100,8 +73,6 @@ func (g *genImpl) Generate(input types.Input) error {
 	funcs := template.FuncMap{
 		"FlagVarName":         flagVarName,
 		"FlagInitParam":       flagInitParam,
-		"FlagAccessFunc":      flagAccessFunc,
-		"SupportImports":      supportImports,
 		"DefaultValueLiteral": defaultValueLiteral,
 		"TypeString":          typeString,
 	}
