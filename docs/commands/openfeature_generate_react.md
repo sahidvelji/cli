@@ -21,11 +21,12 @@ openfeature generate react [flags]
 ### Options inherited from parent commands
 
 ```
-      --flag_manifest_path string   Path to the flag manifest.
-      --output_path string          Output path for the codegen
+  -m, --manifest string   Path to the flag manifest (default "flags.json")
+      --no-input          Disable interactive prompts
+  -o, --output string     Path to where the generated files should be saved
 ```
 
 ### SEE ALSO
 
-* [openfeature generate](openfeature_generate.md)	 - Code generation for flag accessors for OpenFeature.
+* [openfeature generate](openfeature_generate.md)	 - Generate typesafe OpenFeature accessors.
 

@@ -1,0 +1,36 @@
+'use client';
+
+import {
+  type ReactFlagEvaluationOptions,
+  type ReactFlagEvaluationNoSuspenseOptions,
+  useFlag,
+  useSuspenseFlag,
+} from "@openfeature/react-sdk";
+{{ range .Flagset.Flags }}
+/**
+* {{ .Description }}
+* 
+* **Details:**
+* - flag key: `{{ .Key }}`
+* - default value: `{{ .DefaultValue }}`
+* - type: `{{ .Type | OpenFeatureType }}`
+*/
+export const use{{ .Key | ToPascal }} = (options?: ReactFlagEvaluationOptions) => {
+  return useFlag({{ .Key | Quote }}, {{ .DefaultValue | QuoteString }}, options);
+};
+
+/**
+* {{ .Description }}
+* 
+* **Details:**
+* - flag key: `{{ .Key }}`
+* - default value: `{{ .DefaultValue }}`
+* - type: `{{ .Type | OpenFeatureType }}`
+*
+* Equivalent to useFlag with options: `{ suspend: true }`
+* @experimental — Suspense is an experimental feature subject to change in future versions.
+*/
+export const useSuspense{{ .Key | ToPascal }} = (options?: ReactFlagEvaluationNoSuspenseOptions) => {
+  return useSuspenseFlag({{ .Key | Quote }}, {{ .DefaultValue | QuoteString }}, options);
+};
+{{ end}}

@@ -1,17 +1,22 @@
 <!-- markdownlint-disable-file -->
 <!-- WARNING: THIS DOC IS AUTO-GENERATED. DO NOT EDIT! -->
-## openfeature version
+## openfeature init
 
-Print the version number of the OpenFeature CLI
+Initialize a new project
+
+### Synopsis
+
+Initialize a new project for OpenFeature CLI.
 
 ```
-openfeature version [flags]
+openfeature init [flags]
 ```
 
 ### Options
 
 ```
-  -h, --help   help for version
+  -h, --help       help for init
+      --override   Override an existing configuration
 ```
 
 ### Options inherited from parent commands
