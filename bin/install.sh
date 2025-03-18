@@ -17,19 +17,17 @@ get_latest_release() {
 }
 
 get_asset_name() {
-  echo "openfeature-cli_$1_$2_$3.tar.gz"
+  echo "openfeature_$1_$2.tar.gz"
 }
 
 get_download_url() {
-  local asset_name=$(get_asset_name $1 $2 $3)
+  local asset_name=$(get_asset_name $2 $3)
   echo "https://github.com/open-feature/cli/releases/download/v$1/${asset_name}"
 }
 
 get_checksum_url() {
-  echo "https://github.com/open-feature/cli/releases/download/v$1/openfeature-cli_$1_checksums.txt"
+  echo "https://github.com/open-feature/cli/releases/download/v$1/checksums.txt"
 }
-
-# https://github.com/open-feature/cli/releases/download/v0.0.15/vacuum_0.0.15_darwin_x86_64.tar.gz
 
 command_exists() {
   command -v "$@" >/dev/null 2>&1
@@ -99,7 +97,7 @@ get_tmp_dir() {
 do_checksum() {
   checksum_url=$(get_checksum_url $version)
   get_checksum_url $version
-  expected_checksum=$(curl -sL $checksum_url | grep "openfeature-cli_Linux_x86_64.tar.gz" | awk '{print $1}')
+  expected_checksum=$(curl -sL $checksum_url | grep $asset_name | awk '{print $1}')
 
   if command_exists sha256sum; then
     checksum=$(sha256sum $asset_name | awk '{print $1}')
@@ -117,7 +115,7 @@ do_checksum() {
 }
 
 do_install_binary() {
-  asset_name=$(get_asset_name $version $os $machine)
+  asset_name=$(get_asset_name $os $machine)
   download_url=$(get_download_url $version $os $machine)
 
   command_exists curl || {
