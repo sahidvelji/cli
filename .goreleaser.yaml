@@ -7,7 +7,7 @@
 # vim: set ts=2 sw=2 tw=0 fo=cnqoj
 
 version: 2
-project_name: openfeature-cli
+project_name: openfeature
 
 before:
   hooks:
@@ -23,7 +23,7 @@ builds:
       - darwin
 
 archives:
-  - format: tar.gz
+  - formats: tar.gz
     # this name template makes the OS and Arch compatible with the results of `uname`.
     name_template: >-
       {{ .ProjectName }}_
@@ -35,7 +35,7 @@ archives:
     # use zip for windows archives
     format_overrides:
       - goos: windows
-        format: zip
+        formats: [ 'zip' ]
 checksum:
   name_template: 'checksums.txt'
 
@@ -47,7 +47,7 @@ dockers:
   use: buildx
   build_flag_templates:
   - --platform=linux/amd64
-  - --label=org.opencontainers.image.title={{ .ProjectName }}
+  - --label=org.opencontainers.image.title={{ .ProjectName }} cli
   - --label=org.opencontainers.image.url=https://github.com/open-feature/cli
   - --label=org.opencontainers.image.source=https://github.com/open-feature/cli
   - --label=org.opencontainers.image.version={{ .Version }}
@@ -62,7 +62,7 @@ dockers:
   use: buildx
   build_flag_templates:
   - --platform=linux/arm64
-  - --label=org.opencontainers.image.title={{ .ProjectName }}
+  - --label=org.opencontainers.image.title={{ .ProjectName }} cli
   - --label=org.opencontainers.image.url=https://github.com/open-feature/cli
   - --label=org.opencontainers.image.source=https://github.com/open-feature/cli
   - --label=org.opencontainers.image.version={{ .Version }}
