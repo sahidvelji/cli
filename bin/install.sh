@@ -153,7 +153,7 @@ do_install_binary() {
   echo "Installed the OpenFeature cli to $INSTALL_DIR"
 
   # Cleanup
-  rm -rf $tmp_dir
+  rm -rf "$tmp_dir"
 }
 
 install_termux() {
