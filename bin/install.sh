@@ -184,6 +184,12 @@ main() {
   if [ ${TERMUX_VERSION} ] ; then
     install_termux
   else
+    echo "Installing OpenFeature CLI to $INSTALL_DIR..."
+    echo "To use a different install location, press Ctrl+C and run again with:"
+    echo "    INSTALL_DIR=/your/custom/path ./bin/install.sh"
+    echo ""
+    sleep 2 # Give user a chance to cancel if needed
+    
     do_install_binary
   fi
 
