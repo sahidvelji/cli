@@ -3,7 +3,16 @@ set -e
 
 # Adapted/Copied from https://github.com/daveshanley/vacuum/blob/main/bin/install.sh
 
-INSTALL_DIR=${INSTALL_DIR:-"/usr/local/bin"}
+# Default to /usr/local/bin, but fall back to $HOME/.local/bin if /usr/local/bin is not writable
+if [ -w "/usr/local/bin" ]; then
+  DEFAULT_INSTALL_DIR="/usr/local/bin"
+elif [ -d "$HOME/.local/bin" ] || mkdir -p "$HOME/.local/bin" 2>/dev/null; then
+  DEFAULT_INSTALL_DIR="$HOME/.local/bin"
+else
+  DEFAULT_INSTALL_DIR="/usr/local/bin"  # Will attempt and prompt for sudo if needed
+fi
+
+INSTALL_DIR=${INSTALL_DIR:-$DEFAULT_INSTALL_DIR}
 BINARY_NAME=${BINARY_NAME:-"openfeature"}
 
 REPO_NAME="open-feature/cli"
