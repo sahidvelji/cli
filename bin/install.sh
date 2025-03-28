@@ -152,6 +152,32 @@ do_install_binary() {
   mv "$tmp_dir/$BINARY_NAME" $INSTALL_DIR
   echo "Installed the OpenFeature cli to $INSTALL_DIR"
 
+  # Add to PATH information if not already in PATH
+  if ! echo "$PATH" | tr ":" "\n" | grep -q "^$INSTALL_DIR$"; then
+    shell_profile=""
+    case $SHELL in
+      */bash*)
+        if [ -f "$HOME/.bashrc" ]; then
+          shell_profile="$HOME/.bashrc"
+        elif [ -f "$HOME/.bash_profile" ]; then
+          shell_profile="$HOME/.bash_profile"
+        fi
+        ;;
+      */zsh*)
+        shell_profile="$HOME/.zshrc"
+        ;;
+    esac
+
+    if [ -n "$shell_profile" ]; then
+      echo ""
+      echo "${YELLOW}$INSTALL_DIR is not in your PATH.${RESET}"
+      echo "To add it to your PATH, run:"
+      echo "    echo 'export PATH=\"\$PATH:$INSTALL_DIR\"' >> $shell_profile"
+      echo "Then, restart your terminal or run:"
+      echo "    source $shell_profile"
+    fi
+  fi
+
   # Cleanup
   rm -rf "$tmp_dir"
 }
