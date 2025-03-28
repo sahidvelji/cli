@@ -3,13 +3,14 @@ set -e
 
 # Adapted/Copied from https://github.com/daveshanley/vacuum/blob/main/bin/install.sh
 
-# Default to /usr/local/bin, but fall back to $HOME/.local/bin if /usr/local/bin is not writable
-if [ -w "/usr/local/bin" ]; then
-  DEFAULT_INSTALL_DIR="/usr/local/bin"
-elif [ -d "$HOME/.local/bin" ] || mkdir -p "$HOME/.local/bin" 2>/dev/null; then
+if [ -d "$HOME/.local/bin" ] || mkdir -p "$HOME/.local/bin" 2>/dev/null; then
   DEFAULT_INSTALL_DIR="$HOME/.local/bin"
+elif [ -w "/usr/local/bin" ]; then
+  DEFAULT_INSTALL_DIR="/usr/local/bin"
 else
-  DEFAULT_INSTALL_DIR="/usr/local/bin"  # Will attempt and prompt for sudo if needed
+  fmt_error "unable to write to $HOME/.local/bin or /usr/local/bin"
+  fmt_error "Please run this script with sudo or set INSTALL_DIR to a directory you can write to."
+  exit 1
 fi
 
 INSTALL_DIR=${INSTALL_DIR:-$DEFAULT_INSTALL_DIR}
@@ -149,7 +150,29 @@ do_install_binary() {
   (cd $tmp_dir && tar -xzf "$asset_name")
 
   # Install binary
-  mv "$tmp_dir/$BINARY_NAME" $INSTALL_DIR
+  if [ -w "$INSTALL_DIR" ]; then
+    mv "$tmp_dir/$BINARY_NAME" "$INSTALL_DIR"
+  else
+    fmt_error "Unable to write to $INSTALL_DIR. Please run this script with sudo or set INSTALL_DIR to a directory you can write to."
+    exit 1
+  fi
+
+  # Make the binary executable
+  if [ -w "$INSTALL_DIR/$BINARY_NAME" ]; then
+    chmod +x "$INSTALL_DIR/$BINARY_NAME"
+  else
+    sudo chmod +x "$INSTALL_DIR/$BINARY_NAME" 2>/dev/null || {
+      fmt_error "Could not make $INSTALL_DIR/$BINARY_NAME executable"
+      exit 1
+    }
+  fi
+
+  # Check if the binary is executable
+  if [ ! -x "$INSTALL_DIR/$BINARY_NAME" ]; then
+    fmt_error "The binary is not executable. Please check your permissions."
+    exit 1
+  fi
+
   echo "Installed the OpenFeature cli to $INSTALL_DIR"
 
   # Add to PATH information if not already in PATH
