@@ -7,6 +7,7 @@ import (
 	"github.com/open-feature/cli/internal/flagset"
 	"github.com/open-feature/cli/internal/generators"
 	"github.com/open-feature/cli/internal/generators/golang"
+	"github.com/open-feature/cli/internal/generators/nodejs"
 	"github.com/open-feature/cli/internal/generators/react"
 	"github.com/spf13/cobra"
 )
@@ -16,13 +17,13 @@ func addStabilityInfo(cmd *cobra.Command) {
 	// Only modify commands that have a stability annotation
 	if stability, ok := cmd.Annotations["stability"]; ok {
 		originalTemplate := cmd.UsageTemplate()
-		
+
 		// Find the "Usage:" section and insert stability info before it
 		if strings.Contains(originalTemplate, "Usage:") {
 			customTemplate := strings.Replace(
 				originalTemplate,
 				"Usage:",
-				"Stability: " + stability + "\n\nUsage:",
+				"Stability: "+stability+"\n\nUsage:",
 				1, // Replace only the first occurrence
 			)
 			cmd.SetUsageTemplate(customTemplate)
@@ -32,6 +33,44 @@ func addStabilityInfo(cmd *cobra.Command) {
 			cmd.SetUsageTemplate(customTemplate)
 		}
 	}
+}
+
+func GetGenerateNodeJSCmd() *cobra.Command {
+	reactCmd := &cobra.Command{
+		Use:   "nodejs",
+		Short: "Generate typesafe Node.js client.",
+		Long:  `Generate typesafe Node.js client compatible with the OpenFeature JavaScript Server SDK.`,
+		Annotations: map[string]string{
+			"stability": string(generators.Alpha),
+		},
+		PreRunE: func(cmd *cobra.Command, args []string) error {
+			return initializeConfig(cmd, "generate.nodejs")
+		},
+		RunE: func(cmd *cobra.Command, args []string) error {
+			manifestPath := config.GetManifestPath(cmd)
+			outputPath := config.GetOutputPath(cmd)
+
+			params := generators.Params[nodejs.Params]{
+				OutputPath: outputPath,
+				Custom:     nodejs.Params{},
+			}
+			flagset, err := flagset.Load(manifestPath)
+			if err != nil {
+				return err
+			}
+
+			generator := nodejs.NewGenerator(flagset)
+			err = generator.Generate(&params)
+			if err != nil {
+				return err
+			}
+			return nil
+		},
+	}
+
+	addStabilityInfo(reactCmd)
+
+	return reactCmd
 }
 
 func GetGenerateReactCmd() *cobra.Command {
@@ -51,7 +90,7 @@ func GetGenerateReactCmd() *cobra.Command {
 
 			params := generators.Params[react.Params]{
 				OutputPath: outputPath,
-				Custom: react.Params{},
+				Custom:     react.Params{},
 			}
 			flagset, err := flagset.Load(manifestPath)
 			if err != nil {
@@ -66,7 +105,7 @@ func GetGenerateReactCmd() *cobra.Command {
 			return nil
 		},
 	}
-	
+
 	addStabilityInfo(reactCmd)
 
 	return reactCmd
@@ -111,7 +150,7 @@ func GetGenerateGoCmd() *cobra.Command {
 
 	// Add Go-specific flags
 	config.AddGoGenerateFlags(goCmd)
-	
+
 	addStabilityInfo(goCmd)
 
 	return goCmd
@@ -121,6 +160,7 @@ func init() {
 	// Register generators with the manager
 	generators.DefaultManager.Register(GetGenerateReactCmd)
 	generators.DefaultManager.Register(GetGenerateGoCmd)
+	generators.DefaultManager.Register(GetGenerateNodeJSCmd)
 }
 
 func GetGenerateCmd() *cobra.Command {
