@@ -36,7 +36,7 @@ func addStabilityInfo(cmd *cobra.Command) {
 }
 
 func GetGenerateNodeJSCmd() *cobra.Command {
-	reactCmd := &cobra.Command{
+	nodeJSCmd := &cobra.Command{
 		Use:   "nodejs",
 		Short: "Generate typesafe Node.js client.",
 		Long:  `Generate typesafe Node.js client compatible with the OpenFeature JavaScript Server SDK.`,
@@ -68,9 +68,9 @@ func GetGenerateNodeJSCmd() *cobra.Command {
 		},
 	}
 
-	addStabilityInfo(reactCmd)
+	addStabilityInfo(nodeJSCmd)
 
-	return reactCmd
+	return nodeJSCmd
 }
 
 func GetGenerateReactCmd() *cobra.Command {
