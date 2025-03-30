@@ -38,4 +38,8 @@ jobs:
       - run: make generate-docs
       - name: Check no diff
         run: |
-          if [ ! -z "$(git status --porcelain)" ]; then echo "::error file=Makefile::Doc generation produced diff. Run 'make generate-docs' and commit results."; exit 1; fi
+          if [ ! -z "$(git status --porcelain)" ]; then
+            echo "::error file=Makefile::Doc generation produced diff. Run 'make generate-docs' and commit results."
+            git diff
+            exit 1
+          fi
