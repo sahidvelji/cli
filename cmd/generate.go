@@ -202,6 +202,8 @@ func GetGenerateCmd() *cobra.Command {
 	for _, subCmd := range generators.DefaultManager.GetCommands() {
 		generateCmd.AddCommand(subCmd)
 	}
+	
+	addStabilityInfo(generateCmd)
 
 	return generateCmd
 }

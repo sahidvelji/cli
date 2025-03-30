@@ -26,7 +26,6 @@ func GetInitCmd() *cobra.Command {
 			manifestExists, _ := filesystem.Exists(manifestPath)
 			if manifestExists && !override {
 				logger.Default.Debug(fmt.Sprintf("Manifest file already exists at %s", manifestPath))
-				
 				confirmMessage := fmt.Sprintf("An existing manifest was found at %s. Would you like to override it?", manifestPath)
 				shouldOverride, _ := pterm.DefaultInteractiveConfirm.Show(confirmMessage)
 				// Print a blank line for better readability.
@@ -53,6 +52,8 @@ func GetInitCmd() *cobra.Command {
 	}
 
 	config.AddInitFlags(initCmd)
+
+	addStabilityInfo(initCmd)
 
 	return initCmd
 }

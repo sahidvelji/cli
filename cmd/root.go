@@ -48,8 +48,8 @@ func GetRootCmd() *cobra.Command {
 			logger.Default.Println("To see all the options, try 'openfeature --help'")
 			return nil
 		},
-		SilenceErrors: true,
-		SilenceUsage:  true,
+		SilenceErrors:              true,
+		SilenceUsage:               true,
 		DisableSuggestions:         false,
 		SuggestionsMinimumDistance: 2,
 		DisableAutoGenTag:          true,
