@@ -5,6 +5,7 @@ import (
 
 	"github.com/open-feature/cli/internal/config"
 	"github.com/open-feature/cli/internal/filesystem"
+	"github.com/open-feature/cli/internal/logger"
 	"github.com/open-feature/cli/internal/manifest"
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
@@ -23,24 +24,30 @@ func GetInitCmd() *cobra.Command {
 			override := config.GetOverride(cmd)
 
 			manifestExists, _ := filesystem.Exists(manifestPath)
-			if (manifestExists && !override) {
+			if manifestExists && !override {
+				logger.Default.Debug(fmt.Sprintf("Manifest file already exists at %s", manifestPath))
+				
 				confirmMessage := fmt.Sprintf("An existing manifest was found at %s. Would you like to override it?", manifestPath)
 				shouldOverride, _ := pterm.DefaultInteractiveConfirm.Show(confirmMessage)
 				// Print a blank line for better readability.
 				pterm.Println()
-				if (!shouldOverride) {
-					pterm.Info.Println("No changes were made.")
+				if !shouldOverride {
+					logger.Default.Info("No changes were made.")
 					return nil
 				}
+				
+				logger.Default.Debug("User confirmed override of existing manifest")
 			}
 
-			pterm.Info.Println("Initializing project...")
+			logger.Default.Info("Initializing project...")
 			err := manifest.Create(manifestPath)
 			if err != nil {
+				logger.Default.Error(fmt.Sprintf("Failed to create manifest: %v", err))
 				return err
 			}
-			pterm.Info.Printfln("Manifest created at %s", pterm.LightWhite(manifestPath))
-			pterm.Success.Println("Project initialized.")
+			
+			logger.Default.FileCreated(manifestPath)
+			logger.Default.Success("Project initialized.")
 			return nil
 		},
 	}

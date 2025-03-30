@@ -18,6 +18,7 @@ openfeature generate [flags]
 ### Options inherited from parent commands
 
 ```
+      --debug             Enable debug logging
   -m, --manifest string   Path to the flag manifest (default "flags.json")
       --no-input          Disable interactive prompts
 ```

@@ -1,10 +1,11 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/open-feature/cli/internal/config"
-	"github.com/pterm/pterm"
+	"github.com/open-feature/cli/internal/logger"
 
 	"github.com/spf13/cobra"
 )
@@ -22,28 +23,29 @@ func Execute(version string, commit string, date string) {
 	Commit = commit
 	Date = date
 	if err := GetRootCmd().Execute(); err != nil {
-		pterm.Error.Println(err)
+		logger.Default.Error(err.Error())
 		os.Exit(1)
 	}
 }
 
 func GetRootCmd() *cobra.Command {
 	// Execute all parent's persistent hooks
-	cobra.EnableTraverseRunHooks =true
+	cobra.EnableTraverseRunHooks = true
 
 	rootCmd := &cobra.Command{
 		Use:   "openfeature",
 		Short: "CLI for OpenFeature.",
 		Long:  `CLI for OpenFeature related functionalities.`,
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+			debug, _ := cmd.Flags().GetBool("debug")
+			logger.Default.SetDebug(debug)
+			logger.Default.Debug("Debug logging enabled")
 			return initializeConfig(cmd, "")
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			printBanner()
-			pterm.Println()
-			pterm.Println("To see all the options, try 'openfeature --help'")
-			pterm.Println()
-
+			logger.Default.Println("");
+			logger.Default.Println("To see all the options, try 'openfeature --help'")
 			return nil
 		},
 		SilenceErrors: true,
@@ -63,8 +65,8 @@ func GetRootCmd() *cobra.Command {
 
 	// Add a custom error handler after the command is created
 	rootCmd.SetFlagErrorFunc(func(cmd *cobra.Command, err error) error {
-		pterm.Error.Printf("Invalid flag: %s", err)
-		pterm.Println("Run 'openfeature --help' for usage information")
+		logger.Default.Error(fmt.Sprintf("Invalid flag: %s", err))
+		logger.Default.Info("Run 'openfeature --help' for usage information")
 		return err
 	})
 
