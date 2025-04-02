@@ -3,6 +3,7 @@ package cmd
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -38,6 +39,13 @@ func TestGenerate(t *testing.T) {
 			command:        "react",
 			manifestGolden: "testdata/success_manifest.golden",
 			outputGolden:   "testdata/success_react.golden",
+			outputFile:     "openfeature.ts",
+		},
+		{
+			name:           "NodeJS generation success",
+			command:        "nodejs",
+			manifestGolden: "testdata/success_manifest.golden",
+			outputGolden:   "testdata/success_nodejs.golden",
 			outputFile:     "openfeature.ts",
 		},
 		// Add more test cases here as needed
@@ -116,13 +124,18 @@ func compareOutput(t *testing.T, testFile, memoryOutputPath string, fs afero.Fs)
 	want, err := os.ReadFile(testFile)
 	if err != nil {
 		t.Fatalf("error reading file %q: %v", testFile, err)
-
 	}
+
 	got, err := afero.ReadFile(fs, memoryOutputPath)
 	if err != nil {
 		t.Fatalf("error reading file %q: %v", memoryOutputPath, err)
 	}
-	if diff := cmp.Diff(want, got); diff != "" {
+	
+	// Convert to string arrays by splitting on newlines
+	wantLines := strings.Split(string(want), "\n")
+	gotLines := strings.Split(string(got), "\n")
+	
+	if diff := cmp.Diff(wantLines, gotLines); diff != "" {
 		t.Errorf("output mismatch (-want +got):\n%s", diff)
 	}
 }
