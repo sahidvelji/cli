@@ -50,9 +50,9 @@ func GetGenerateNodeJSCmd() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			manifestPath := config.GetManifestPath(cmd)
 			outputPath := config.GetOutputPath(cmd)
-			
+
 			logger.Default.GenerationStarted("Node.js")
-			
+
 			params := generators.Params[nodejs.Params]{
 				OutputPath: outputPath,
 				Custom:     nodejs.Params{},
@@ -68,7 +68,7 @@ func GetGenerateNodeJSCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			
+	
 			logger.Default.GenerationComplete("Node.js")
 			
 			return nil
