@@ -6,6 +6,7 @@ import (
 
 // Flag name constants to avoid duplication
 const (
+	DebugFlagName     = "debug"
 	ManifestFlagName  = "manifest"
 	OutputFlagName    = "output"
 	NoInputFlagName   = "no-input"
@@ -24,6 +25,7 @@ const (
 func AddRootFlags(cmd *cobra.Command) {
 	cmd.PersistentFlags().StringP(ManifestFlagName, "m", DefaultManifestPath, "Path to the flag manifest")
 	cmd.PersistentFlags().Bool(NoInputFlagName, false, "Disable interactive prompts")
+	cmd.PersistentFlags().Bool(DebugFlagName, false, "Enable debug logging")
 }
 
 // AddGenerateFlags adds the common generate flags to the given command

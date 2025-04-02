@@ -15,6 +15,7 @@ openfeature [flags]
 ### Options
 
 ```
+      --debug             Enable debug logging
   -h, --help              help for openfeature
   -m, --manifest string   Path to the flag manifest (default "flags.json")
       --no-input          Disable interactive prompts

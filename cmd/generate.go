@@ -9,6 +9,7 @@ import (
 	"github.com/open-feature/cli/internal/generators/golang"
 	"github.com/open-feature/cli/internal/generators/nodejs"
 	"github.com/open-feature/cli/internal/generators/react"
+	"github.com/open-feature/cli/internal/logger"
 	"github.com/spf13/cobra"
 )
 
@@ -50,6 +51,8 @@ func GetGenerateNodeJSCmd() *cobra.Command {
 			manifestPath := config.GetManifestPath(cmd)
 			outputPath := config.GetOutputPath(cmd)
 
+			logger.Default.GenerationStarted("Node.js")
+
 			params := generators.Params[nodejs.Params]{
 				OutputPath: outputPath,
 				Custom:     nodejs.Params{},
@@ -60,10 +63,14 @@ func GetGenerateNodeJSCmd() *cobra.Command {
 			}
 
 			generator := nodejs.NewGenerator(flagset)
+			logger.Default.Debug("Executing Node.js generator")
 			err = generator.Generate(&params)
 			if err != nil {
 				return err
 			}
+	
+			logger.Default.GenerationComplete("Node.js")
+			
 			return nil
 		},
 	}
@@ -87,6 +94,8 @@ func GetGenerateReactCmd() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			manifestPath := config.GetManifestPath(cmd)
 			outputPath := config.GetOutputPath(cmd)
+			
+			logger.Default.GenerationStarted("React")
 
 			params := generators.Params[react.Params]{
 				OutputPath: outputPath,
@@ -98,10 +107,14 @@ func GetGenerateReactCmd() *cobra.Command {
 			}
 
 			generator := react.NewGenerator(flagset)
+			logger.Default.Debug("Executing React generator")
 			err = generator.Generate(&params)
 			if err != nil {
 				return err
 			}
+			
+			logger.Default.GenerationComplete("React")
+			
 			return nil
 		},
 	}
@@ -126,6 +139,8 @@ func GetGenerateGoCmd() *cobra.Command {
 			goPackageName := config.GetGoPackageName(cmd)
 			manifestPath := config.GetManifestPath(cmd)
 			outputPath := config.GetOutputPath(cmd)
+			
+			logger.Default.GenerationStarted("Go")
 
 			params := generators.Params[golang.Params]{
 				OutputPath: outputPath,
@@ -140,10 +155,14 @@ func GetGenerateGoCmd() *cobra.Command {
 			}
 
 			generator := golang.NewGenerator(flagset)
+			logger.Default.Debug("Executing Go generator")
 			err = generator.Generate(&params)
 			if err != nil {
 				return err
 			}
+			
+			logger.Default.GenerationComplete("Go")
+			
 			return nil
 		},
 	}

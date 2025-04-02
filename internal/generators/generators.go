@@ -10,6 +10,7 @@ import (
 
 	"github.com/open-feature/cli/internal/filesystem"
 	"github.com/open-feature/cli/internal/flagset"
+	"github.com/open-feature/cli/internal/logger"
 )
 
 // Represents the stability level of a generator
@@ -46,6 +47,8 @@ func (g *CommonGenerator) GenerateFile(customFunc template.FuncMap, tmpl string,
 	funcs := defaultFuncs()
 	maps.Copy(funcs, customFunc)
 
+	logger.Default.Debug(fmt.Sprintf("Generating file: %s", name))
+	
 	generatorTemplate, err := template.New("generator").Funcs(funcs).Parse(tmpl)
 	if err != nil {
 		return fmt.Errorf("error initializing template: %v", err)
@@ -60,5 +63,14 @@ func (g *CommonGenerator) GenerateFile(customFunc template.FuncMap, tmpl string,
 		return fmt.Errorf("error executing template: %v", err)
 	}
 
-	return filesystem.WriteFile(filepath.Join(params.OutputPath, name), buf.Bytes())
+	fullPath := filepath.Join(params.OutputPath, name)
+	if err := filesystem.WriteFile(fullPath, buf.Bytes()); err != nil {
+		logger.Default.FileFailed(fullPath, err)
+		return err
+	}
+	
+	// Log successful file creation
+	logger.Default.FileCreated(fullPath)
+	
+	return nil
 }

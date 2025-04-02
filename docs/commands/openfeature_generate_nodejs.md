@@ -24,6 +24,7 @@ openfeature generate nodejs [flags]
 ### Options inherited from parent commands
 
 ```
+      --debug             Enable debug logging
   -m, --manifest string   Path to the flag manifest (default "flags.json")
       --no-input          Disable interactive prompts
   -o, --output string     Path to where the generated files should be saved
