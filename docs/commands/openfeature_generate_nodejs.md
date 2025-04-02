@@ -4,6 +4,9 @@
 
 Generate typesafe Node.js client.
 
+
+> **Stability**: alpha
+
 ### Synopsis
 
 Generate typesafe Node.js client compatible with the OpenFeature JavaScript Server SDK.
