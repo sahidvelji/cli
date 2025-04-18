@@ -49,6 +49,13 @@ func TestGenerate(t *testing.T) {
 			outputFile:     "openfeature.ts",
 		},
 		{
+			name:           "NestJS generation success",
+			command:        "nestjs",
+			manifestGolden: "testdata/success_manifest.golden",
+			outputGolden:   "testdata/success_nestjs.golden",
+			outputFile:     "openfeature-decorators.ts",
+		},
+		{
 			name:           "Python generation success",
 			command:        "python",
 			manifestGolden: "testdata/success_manifest.golden",
